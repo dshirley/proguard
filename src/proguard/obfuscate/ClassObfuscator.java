@@ -120,8 +120,13 @@ implements   ClassVisitor,
         }
 
         this.useMixedCaseClassNames  = useMixedCaseClassNames;
-        this.keepPackageNamesMatcher = keepPackageNames == null ? null :
-            new ListParser(new FileNameParser()).parse(keepPackageNames);
+
+        if (keepPackageNames == null || keepPackageNames.isEmpty()) {
+            this.keepPackageNamesMatcher = null;
+        } else {
+            this.keepPackageNamesMatcher = new ListParser(new FileNameParser()).parse(keepPackageNames);
+        }
+
         this.flattenPackageHierarchy = flattenPackageHierarchy;
         this.repackageClasses        = repackageClasses;
         this.allowAccessModification = allowAccessModification;
